@@ -6,10 +6,6 @@ import pandas as pd
 import gffutils
 import glob
 
-# Create a _RELEASE constant. We'll set this to False while we're developing
-# the component, and True when we're ready to package and distribute it.
-# (This is, of course, optional - there are innumerable ways to manage your
-# release process.)
 DB = "hg38.genes.db"
 _RELEASE = True
 # app: `$ streamlit run main.py`
@@ -20,7 +16,6 @@ def load_db(db_file):
     return gffutils.FeatureDB(db_file, keep_order=True)
 
 if _RELEASE:
-   
     st.header("Hybrid Genome Browser")
 
     # Create a second instance of our component whose `name` arg will vary

@@ -20,7 +20,7 @@ And then put BAM and BAI files on this foilder.
 export STREAMLIT_HOST=$(hostname -i)
 export HGB_BIN=/*location_to_hgb_binary*/
 
-streamlit run main.py 
+streamlit run hgb.py 
 ```
 
 HGB_BIN is usually `/dir/to/cloned/hgb/target/release/hgb`. Specify HGB_BIN, otherwise set the path to hgb as `export PATH=$PATH:/dir/to/hgb/`.
@@ -29,8 +29,8 @@ HGB_BIN is usually `/dir/to/cloned/hgb/target/release/hgb`. Specify HGB_BIN, oth
 
 There is two ways to modify the input file of the browser.
 
-1. Directly modify `main.py`
-2. Write `config.yaml` at the same directory of `main.py`
+1. Directly modify `hgb.py`
+2. Write `config.yaml` at the same directory of `hgb.py`
 
 ```yaml
 hg38:
