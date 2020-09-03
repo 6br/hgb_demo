@@ -4,6 +4,15 @@ A streamlit component example of a hybrid genome browser
 
 ![streamlit](Streamlit.png)
 
+## Features
+
+* Customizable browser appearance
+* Zooming in/out read alignments
+* Query region by gene name based on gff/gtf database
+* Gene annotation table for specified region
+
+## Getting started
+
 * virtualenv
 
 [hgb](https://github.com/6br/hgb) 
@@ -14,7 +23,7 @@ $ . venv/bin/activate   # activate venv
 $ pip install streamlit_hgb pandas gffutils argh # install streamlit and dependencies
 ```
 
-And then put BAM and BAI files on this foilder.
+And then put BAM and BAI files on that folder.
 
 ```bash
 export STREAMLIT_HOST=$(hostname -i)
@@ -24,6 +33,16 @@ streamlit run main.py
 ```
 
 HGB_BIN is usually `/dir/to/cloned/hgb/target/release/hgb`. Specify HGB_BIN, otherwise set the path to hgb as `export PATH=$PATH:/dir/to/hgb/`.
+
+## Generate GFF database
+
+The default gene database is generated from [GENCODE Human release v34 basic annotation](https://www.gencodegenes.org/human/).
+If you want to change the database, you can generate database from your own gff/gtf file.
+
+```bash
+$ pip install gffutils
+$ ./gffutils-cli create --disable-infer-genes input.gtf
+```
 
 ## Example of `config.yaml`
 
@@ -52,10 +71,4 @@ hg38:
 
 All input bam files must be indexed by `samtools index` or compatibles.
 
-## Generate GFF database
-
-```bash
-$ pip install gffutils
-$ ./gffutils-cli create --disable-infer-genes input.gtf
-```
 
