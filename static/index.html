@@ -1,0 +1,25 @@
+<div id="openseadragon1" style="width: 95%; height: 95%;"></div>
+<script src="openseadragon.min.js"></script>
+<script src="openseadragon-scalebar.js"></script>
+<script type="text/javascript">
+    OpenSeadragon.DEFAULT_SETTINGS.timeout = 120000; 
+    var viewer = OpenSeadragon({
+        id:            "openseadragon1",
+        panVertical: 	true,
+        prefixUrl:     "/images/",
+        navigatorSizeRatio: 0.25,
+        wrapHorizontal:     false,
+        debugMode:  false,
+        showNavigator:  true,
+        navigatorHeight:   "10px",
+        navigatorWidth:    "845px",
+        defaultZoomLevel: 	36,
+        minZoomLevel: 	5,
+        visibilityRatio: 	0.5,
+        tileSources:   "/genome.dzi",
+    });
+    viewer.scalebar({
+        minWidth: 10,
+        pixelsPerMeter: 1000
+    });
+</script>
