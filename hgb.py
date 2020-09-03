@@ -52,8 +52,8 @@ if _RELEASE:
             name_input = [name_input]
         db_file = DB
         if len(refs) > 0:
-            #default_range = "{}:10001-20001".format(next(iter(refs)))
-            default_range = "{}:8844744-8860896".format(next(iter(refs)))
+            default_range = "{}:10001-20001".format(next(iter(refs)))
+            #default_range = "{}:8794744-8850896".format(next(iter(refs)))
         else:
             default_range = ""
     
@@ -100,7 +100,7 @@ if _RELEASE:
             y = st.sidebar.number_input("Set a read height", 8, 128, y)
 
         if range[1] - range[0] <= 1000*1000*12:
-            num_clicks = hgb(name_input, ref_id, range, coverage, split, y, callet)
+            num_clicks = hgb(name_input, ref_id, range, coverage, "", split, y, callet)
 
     fields = ['seqid', 'start', 'end', 'source', 'featuretype', 'strand', 'attributes']
     allFoo =  list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))
