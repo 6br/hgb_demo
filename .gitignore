@@ -1,0 +1,6 @@
+*.whl
+*.gtf
+*.bam
+*.bam.bai
+.DS_Store
+
