@@ -13,9 +13,17 @@ A streamlit component example of a hybrid genome browser
 
 ## Getting started
 
-* virtualenv
+* hgb
 
-[hgb](https://github.com/6br/hgb) 
+[hgb](https://github.com/6br/hgb) is prerequired.
+
+```bash
+git clone https://github.com/6br/hgb
+cd hgb
+cargo build --release
+```
+
+* virtualenv
 
 ```bash
 $ python3 -m venv venv  # create venv
@@ -23,7 +31,7 @@ $ . venv/bin/activate   # activate venv
 $ pip install streamlit_hgb pandas gffutils argh # install streamlit and dependencies
 ```
 
-And then put BAM and BAI files on that folder.
+And then put BAM and BAI files on that folder to visualize.
 
 ```bash
 export STREAMLIT_HOST=$(hostname -i)
