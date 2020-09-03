@@ -40,7 +40,8 @@ export HGB_BIN=/*location_to_hgb_binary*/
 streamlit run main.py 
 ```
 
-HGB_BIN is usually `/dir/to/cloned/hgb/target/release/hgb`. Specify HGB_BIN, otherwise set the path to hgb as `export PATH=$PATH:/dir/to/hgb/`.
+HGB_BIN is usually located at `/dir/to/cloned/hgb/target/release/hgb`. 
+Specify HGB_BIN, otherwise set the path to hgb as `export PATH=$PATH:/dir/to/hgb/`.
 
 ## Generate GFF database
 
