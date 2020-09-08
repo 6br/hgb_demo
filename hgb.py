@@ -5,6 +5,7 @@ from streamlit_hgb import hgb, reference_hash, load_samples
 import pandas as pd
 import gffutils
 import glob
+from streamlit_drawable_canvas import st_canvas
 
 DB = "hg38.genes.db"
 _RELEASE = True
@@ -64,11 +65,11 @@ if _RELEASE:
     y=64
     callet=True
     no_ins=False
+    db = load_db(db_file)
 
     if len(refs) > 0:
         try:
             # Fetch from gene
-            db = load_db(db_file)
             gene = db[region]
             #print(gene, gene.seqid)
             chr_def = gene.seqid
@@ -100,15 +101,26 @@ if _RELEASE:
             y = st.sidebar.number_input("Set a read height", 8, 128, y)
 
         if range[1] - range[0] <= 1000*1000*12:
-            num_clicks = hgb(name_input, ref_id, range, coverage, "", split, y, callet)
+            image = hgb_run(name_input, ref_id, range, coverage, "", split, y, callet)
+            canvas_result = st_canvas(
+                fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
+                stroke_width=stroke_width,
+                stroke_color=stroke_color,
+                background_color="" if bg_image else bg_color,
+                background_image=Image.open(bg_image) if bg_image else None,
+                update_streamlit=True, #realtime_update or update_button,
+                height=150,
+                drawing_mode=False, #drawing_mode,
+                key="canvas",
+            )             
 
-    fields = ['seqid', 'start', 'end', 'source', 'featuretype', 'strand', 'attributes']
-    allFoo =  list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))
-    df = pd.DataFrame([{fn: getattr(f, fn) for fn in fields} for f in allFoo], columns=fields)
+        fields = ['seqid', 'start', 'end', 'source', 'featuretype', 'strand', 'attributes']
+        allFoo =  list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))
+        df = pd.DataFrame([{fn: getattr(f, fn) for fn in fields} for f in allFoo], columns=fields)
     #df = pd.DataFrame([vars(f) for f in list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))])
     #df = pd.DataFrame(list(db.region(region=(ref_id, range[0], range[1]), completely_within=False)))
     #print(df)
-    st.dataframe(df)
+        st.dataframe(df)
 
     st.markdown(
         f"""
