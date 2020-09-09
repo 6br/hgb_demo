@@ -19,7 +19,6 @@ def load_db(db_file):
 
 if _RELEASE:
     st.header("Hybrid Genome Browser")
-    start = time.time()
 
     # Create a second instance of our component whose `name` arg will vary
     # based on a text_input widget.
@@ -61,8 +60,6 @@ if _RELEASE:
         else:
             default_range = ""
     
-    elapsed_time = time.time() - start
-    print ("elapsed_time1:{0}".format(elapsed_time) + "[sec]")
     region = st.sidebar.text_input("Where to explore?", default_range)
     bed = st.sidebar.text_input("Which bed file to use for ?", "")
     split=False
@@ -71,8 +68,6 @@ if _RELEASE:
     callet=True
     no_ins=False
     db = load_db(db_file)
-    elapsed_time = time.time() - start
-    print ("elapsed_time2:{0}".format(elapsed_time) + "[sec]")
 
     if len(refs) > 0:
         try:
@@ -98,8 +93,6 @@ if _RELEASE:
         range = st.sidebar.slider(
          'Select a range of values',
          0, refs[ref_id], (int(car), int(cdr)))
-        elapsed_time = time.time() - start
-        print ("elapsed_time3:{0}".format(elapsed_time) + "[sec]")
 
         if st.sidebar.checkbox("Detail"):
             num = st.sidebar.number_input("Enter a start coordinate", 0, refs[ref_id], range[0])
@@ -114,29 +107,23 @@ if _RELEASE:
                flags = " -J {} -F {} -B -s".format(bed, bed)
             else:
                flags = ""
-            elapsed_time = time.time() - start
-            print ("elapsed_time4:{0}".format(elapsed_time) + "[sec]")
             image = hgb_run(name_input, ref_id, range, coverage, flags, split, y, callet)
-            elapsed_time = time.time() - start
-            print ("elapsed_time4.5:{0}".format(elapsed_time) + "[sec]")
-            #stroke_color = st.sidebar.beta_color_picker("Stroke color hex: ")
+            stroke_color = st.sidebar.beta_color_picker("Stroke color hex: ")
             drawing_mode = st.sidebar.selectbox(
                 "Drawing tool:", ("freedraw", "line", "rect", "circle", "transform"), 4
             )
             canvas_result = st_canvas(
                 fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
                 stroke_width=3, #stroke_width,
-                stroke_color="black", #stroke_color,
+                stroke_color=stroke_color,
                 background_color="", #if bg_image else bg_color,
                 background_image=image, 
                 update_streamlit=False, #realtime_update or update_button,
-                height=(image.height),
-                width=(image.width),
+                height=image.height,
+                width=image.width,
                 drawing_mode=drawing_mode,
                 key="canvas",
             )             
-            elapsed_time = time.time() - start
-            print ("elapsed_time5:{0}".format(elapsed_time) + "[sec]")
 
         fields = ['seqid', 'start', 'end', 'source', 'featuretype', 'strand', 'attributes']
         allFoo =  list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))
@@ -145,8 +132,6 @@ if _RELEASE:
         #df = pd.DataFrame([vars(f) for f in list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))])
         #df = pd.DataFrame(list(db.region(region=(ref_id, range[0], range[1]), completely_within=False)))
         #print(df)
-        elapsed_time = time.time() - start
-        print ("elapsed_time6:{0}".format(elapsed_time) + "[sec]")
 
     st.markdown(
         f"""
