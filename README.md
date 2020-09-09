@@ -20,6 +20,7 @@ A streamlit component example of a hybrid genome browser
 ```bash
 git clone https://github.com/6br/hgb
 cd hgb
+git checkout fastmultivis
 cargo build --release
 ```
 
@@ -42,6 +43,36 @@ streamlit run hgb.py
 
 HGB_BIN is usually located at `/dir/to/cloned/hgb/target/release/hgb`. 
 Specify HGB_BIN, otherwise set the path to hgb as `export PATH=$PATH:/dir/to/hgb/`.
+
+## Getting started on `hgb_draw`
+
+`hgb_draw` mode supports the discontinuous x-axis mode for SNP imputation or CpG island methylation. 
+
+```bash
+$ python3 -m venv venv  # create venv
+$ . venv/bin/activate   # activate venv
+$ pip install streamlit_hgb pandas gffutils argh streamlit-drawable-canvas # install streamlit and dependencies
+```
+
+```bash
+export STREAMLIT_HOST=$(hostname -i)
+export HGB_BIN=/*location_to_hgb_binary*/
+
+streamlit run hgb_draw.py 
+```
+
+An example of BED file is as follows.
+
+```bed
+chr1	8879816	8879818	*	78
+chr1	8879826	8879828	*	75
+chr1	8879836	8879838	*	46
+chr1	8879846	8879848	*	87
+chr1	8879856	8879858	*	99
+chr1	8879866	8879868	*	12
+chr1	8879876	8879878	*	56
+chr1	8879886	8879888	*	43
+``` 
 
 ## Generate GFF database
 

@@ -1,22 +1,25 @@
 import os
 import streamlit as st
 import streamlit.components.v1 as components
-from streamlit_hgb import hgb, reference_hash, load_samples
+from streamlit_hgb import hgb, reference_hash, load_samples, hgb_run
 import pandas as pd
 import gffutils
 import glob
+from streamlit_drawable_canvas import st_canvas
+import time
 
 DB = "hg38.genes.db"
 _RELEASE = True
 # app: `$ streamlit run main.py`
 
 # Retrieve gene annottions from gff file
-#@st.cache()
+#@st.cache(allow_output_mutation=True)
 def load_db(db_file):
     return gffutils.FeatureDB(db_file, keep_order=True)
 
 if _RELEASE:
     st.header("Hybrid Genome Browser")
+    start = time.time()
 
     # Create a second instance of our component whose `name` arg will vary
     # based on a text_input widget.
@@ -52,24 +55,29 @@ if _RELEASE:
             name_input = [name_input]
         db_file = DB
         if len(refs) > 0:
-            default_range = "{}:10001-20001".format(next(iter(refs)))
+            #default_range = "{}:10001-20001".format(next(iter(refs)))
             #default_range = "{}:8794744-8850896".format(next(iter(refs)))
+            default_range = "{}:8874744-8950896".format(next(iter(refs)))
         else:
             default_range = ""
     
+    elapsed_time = time.time() - start
+    print ("elapsed_time1:{0}".format(elapsed_time) + "[sec]")
     region = st.sidebar.text_input("Where to explore?", default_range)
-    #st.title("HGB - {}".format(region))
+    bed = st.sidebar.text_input("Which bed file to use for ?", "")
     split=False
-    coverage=50
-    y=64
+    coverage=20
+    y=16
     callet=True
     no_ins=False
+    db = load_db(db_file)
+    elapsed_time = time.time() - start
+    print ("elapsed_time2:{0}".format(elapsed_time) + "[sec]")
 
     if len(refs) > 0:
         try:
             # Fetch from gene
-            db = load_db(db_file)
-            gene = db[region]
+            gene = db[region] #load_db(db_file, region)
             #print(gene, gene.seqid)
             chr_def = gene.seqid
             car, cdr = gene.start, gene.end
@@ -90,6 +98,8 @@ if _RELEASE:
         range = st.sidebar.slider(
          'Select a range of values',
          0, refs[ref_id], (int(car), int(cdr)))
+        elapsed_time = time.time() - start
+        print ("elapsed_time3:{0}".format(elapsed_time) + "[sec]")
 
         if st.sidebar.checkbox("Detail"):
             num = st.sidebar.number_input("Enter a start coordinate", 0, refs[ref_id], range[0])
@@ -100,15 +110,43 @@ if _RELEASE:
             y = st.sidebar.number_input("Set a read height", 8, 128, y)
 
         if range[1] - range[0] <= 1000*1000*12:
-            num_clicks = hgb(name_input, ref_id, range, coverage, "", split, y, callet)
+            if bed != "":
+               flags = " -J {} -F {} -B -s".format(bed, bed)
+            else:
+               flags = ""
+            elapsed_time = time.time() - start
+            print ("elapsed_time4:{0}".format(elapsed_time) + "[sec]")
+            image = hgb_run(name_input, ref_id, range, coverage, flags, split, y, callet)
+            elapsed_time = time.time() - start
+            print ("elapsed_time4.5:{0}".format(elapsed_time) + "[sec]")
+            #stroke_color = st.sidebar.beta_color_picker("Stroke color hex: ")
+            drawing_mode = st.sidebar.selectbox(
+                "Drawing tool:", ("freedraw", "line", "rect", "circle", "transform"), 4
+            )
+            canvas_result = st_canvas(
+                fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
+                stroke_width=3, #stroke_width,
+                stroke_color="black", #stroke_color,
+                background_color="", #if bg_image else bg_color,
+                background_image=image, 
+                update_streamlit=False, #realtime_update or update_button,
+                height=(image.height),
+                width=(image.width),
+                drawing_mode=drawing_mode,
+                key="canvas",
+            )             
+            elapsed_time = time.time() - start
+            print ("elapsed_time5:{0}".format(elapsed_time) + "[sec]")
 
-    fields = ['seqid', 'start', 'end', 'source', 'featuretype', 'strand', 'attributes']
-    allFoo =  list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))
-    df = pd.DataFrame([{fn: getattr(f, fn) for fn in fields} for f in allFoo], columns=fields)
-    #df = pd.DataFrame([vars(f) for f in list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))])
-    #df = pd.DataFrame(list(db.region(region=(ref_id, range[0], range[1]), completely_within=False)))
-    #print(df)
-    st.dataframe(df)
+        fields = ['seqid', 'start', 'end', 'source', 'featuretype', 'strand', 'attributes']
+        allFoo =  list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))
+        df = pd.DataFrame([{fn: getattr(f, fn) for fn in fields} for f in allFoo], columns=fields)
+        st.dataframe(df)
+        #df = pd.DataFrame([vars(f) for f in list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))])
+        #df = pd.DataFrame(list(db.region(region=(ref_id, range[0], range[1]), completely_within=False)))
+        #print(df)
+        elapsed_time = time.time() - start
+        print ("elapsed_time6:{0}".format(elapsed_time) + "[sec]")
 
     st.markdown(
         f"""
