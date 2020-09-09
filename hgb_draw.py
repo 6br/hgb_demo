@@ -6,7 +6,6 @@ import pandas as pd
 import gffutils
 import glob
 from streamlit_drawable_canvas import st_canvas
-from streamlit_cropper import st_cropper
 import time
 
 DB = "hg38.genes.db"
@@ -109,8 +108,22 @@ if _RELEASE:
             else:
                flags = ""
             image = hgb_run(name_input, ref_id, range, coverage, flags, split, y, callet)
-            cropped_img = st_cropper(image, realtime_update=True, box_color="red",
-                                aspect_ratio=None)
+            stroke_color = st.sidebar.beta_color_picker("Stroke color hex: ")
+            drawing_mode = st.sidebar.selectbox(
+                "Drawing tool:", ("freedraw", "line", "rect", "circle", "transform"), 4
+            )
+            canvas_result = st_canvas(
+                fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
+                stroke_width=3, #stroke_width,
+                stroke_color=stroke_color,
+                background_color="", #if bg_image else bg_color,
+                background_image=image, 
+                update_streamlit=False, #realtime_update or update_button,
+                height=image.height,
+                width=image.width,
+                drawing_mode=drawing_mode,
+                key="canvas",
+            )             
 
         fields = ['seqid', 'start', 'end', 'source', 'featuretype', 'strand', 'attributes']
         allFoo =  list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))
