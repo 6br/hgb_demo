@@ -46,6 +46,8 @@ Specify HGB_BIN, otherwise set the path to hgb as `export PATH=$PATH:/dir/to/hgb
 
 ## Getting started on `hgb_draw`
 
+![streamlit](snp_imputation.png)
+
 `hgb_draw` mode supports the discontinuous x-axis mode for SNP imputation or CpG island methylation. 
 
 ```bash
