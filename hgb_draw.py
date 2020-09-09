@@ -108,10 +108,12 @@ if _RELEASE:
             else:
                flags = ""
             image = hgb_run(name_input, ref_id, range, coverage, flags, split, y, callet)
-            stroke_color = st.sidebar.beta_color_picker("Stroke color hex: ")
-            drawing_mode = st.sidebar.selectbox(
-                "Drawing tool:", ("freedraw", "line", "rect", "circle", "transform"), 4
-            )
+            #stroke_color = st.sidebar.beta_color_picker("Stroke color hex: ")
+            #drawing_mode = st.sidebar.selectbox(
+            #    "Drawing tool:", ("freedraw", "line", "rect", "circle", "transform"), 4
+            #)
+            drawing_mode = "transform"
+            stroke_color = "red"
             canvas_result = st_canvas(
                 fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
                 stroke_width=3, #stroke_width,
