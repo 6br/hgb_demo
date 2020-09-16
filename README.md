@@ -27,9 +27,11 @@ cargo build --release
 * virtualenv
 
 ```bash
-$ python3 -m venv venv  # create venv
-$ . venv/bin/activate   # activate venv
-$ pip install streamlit_hgb pandas gffutils argh streamlit-drawable-canvas # install streamlit and dependencies
+git clone https://github.com/6br/hgb_demo
+cd hgb_demo
+python3 -m venv venv  # create venv
+. venv/bin/activate   # activate venv
+pip install streamlit_hgb pandas gffutils argh streamlit-drawable-canvas # install streamlit and dependencies
 ```
 
 And then put BAM and BAI files on that folder to visualize.
