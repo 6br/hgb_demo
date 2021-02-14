@@ -1,6 +1,6 @@
 # Streamlit-HGB
 
-A streamlit component example of a hybrid genome browser
+A streamlit component example of a hybrid genome browser ([streamlit_hgb](https://github.com/6br/streamlit_hgb))
 
 ![streamlit](Streamlit.png)
 
