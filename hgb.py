@@ -70,7 +70,6 @@ if _RELEASE:
             # Fetch from gene
             db = load_db(db_file)
             gene = db[region]
-            #print(gene, gene.seqid)
             chr_def = gene.seqid
             car, cdr = gene.start, gene.end
             default_range = "{}:{}-{}".format(chr_def, car, cdr)
@@ -103,11 +102,8 @@ if _RELEASE:
             num_clicks = hgb(name_input, ref_id, range, coverage, "", split, y, callet)
 
     fields = ['seqid', 'start', 'end', 'source', 'featuretype', 'strand', 'attributes']
-    allFoo =  list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))
-    df = pd.DataFrame([{fn: getattr(f, fn) for fn in fields} for f in allFoo], columns=fields)
-    #df = pd.DataFrame([vars(f) for f in list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))])
-    #df = pd.DataFrame(list(db.region(region=(ref_id, range[0], range[1]), completely_within=False)))
-    #print(df)
+    allAnnotation =  list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))
+    df = pd.DataFrame([{fn: getattr(f, fn) for fn in fields} for f in allAnnotation], columns=fields)
     st.dataframe(df)
 
     st.markdown(
