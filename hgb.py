@@ -102,7 +102,7 @@ if _RELEASE:
             num_clicks = hgb(name_input, ref_id, range, coverage, "", split, y, callet)
 
     fields = ['seqid', 'start', 'end', 'source', 'featuretype', 'strand', 'attributes']
-    if db:
+    if db and ref_id and range:
         allAnnotations =  list(db.region(region=(ref_id, range[0], range[1]), completely_within=False))
         df = pd.DataFrame([{fn: getattr(f, fn) for fn in fields} for f in allAnnotations], columns=fields)
         st.dataframe(df)
