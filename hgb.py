@@ -26,7 +26,6 @@ if _RELEASE:
     # it is considered a new instance and will be re-mounted on the frontend
     # and lose its current state. In this case, we want to vary the component's
     # "name" argument without having it get recreated.
-    # name_input = st.text_input("Enter a file name", value="../../bt142/ont2_ngmlr.bam")
     try:
         yaml = load_samples("config.yaml")
 
