@@ -52,7 +52,7 @@ if _RELEASE:
             name_input = [name_input]
         db_file = DB
         if len(refs) > 0:
-            default_range = "{}:10001-20001".format(next(iter(refs)))
+            default_range = "{}:100001-200001".format(next(iter(refs)))
             #default_range = "{}:8794744-8850896".format(next(iter(refs)))
         else:
             default_range = ""
