@@ -1,6 +1,6 @@
 # Streamlit-HGB
 
-A streamlit component example of a hybrid genome browser
+A streamlit component example of a hybrid genome browser ([streamlit_hgb](https://github.com/6br/streamlit_hgb))
 
 ![streamlit](Streamlit.png)
 
@@ -20,16 +20,18 @@ A streamlit component example of a hybrid genome browser
 ```bash
 git clone https://github.com/6br/hgb
 cd hgb
-git checkout fastmultivis
+git checkout graph
 cargo build --release
 ```
 
 * virtualenv
 
 ```bash
-$ python3 -m venv venv  # create venv
-$ . venv/bin/activate   # activate venv
-$ pip install streamlit_hgb pandas gffutils argh # install streamlit and dependencies
+git clone https://github.com/6br/hgb_demo
+cd hgb_demo
+python3 -m venv venv  # create venv
+. venv/bin/activate   # activate venv
+pip install streamlit_hgb pandas gffutils argh streamlit-drawable-canvas # install streamlit and dependencies
 ```
 
 And then put BAM and BAI files on that folder to visualize.
@@ -41,7 +43,7 @@ export HGB_BIN=/*location_to_hgb_binary*/
 streamlit run hgb.py 
 ```
 
-HGB_BIN is usually located at `/dir/to/cloned/hgb/target/release/hgb`. 
+hgb binary is usually located at `/dir/to/cloned/hgb/target/release/hgb`. 
 Specify HGB_BIN, otherwise set the path to hgb as `export PATH=$PATH:/dir/to/hgb/`.
 
 ## Getting started on `hgb_draw`

@@ -70,7 +70,6 @@ if _RELEASE:
             # Fetch from gene
             db = load_db(db_file)
             gene = db[region]
-            #print(gene, gene.seqid)
             chr_def = gene.seqid
             car, cdr = gene.start, gene.end
             default_range = "{}:{}-{}".format(chr_def, car, cdr)
