@@ -116,3 +116,6 @@ hg38:
 All input bam files must be indexed by `samtools index` or compatibles.
 
 
+## Troubleshooting
+
+* If error message "Resource temporarily unavailable" is shown, please increase memory assignment
