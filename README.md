@@ -20,7 +20,6 @@ A streamlit component example of a hybrid genome browser ([streamlit_hgb](https:
 ```bash
 git clone https://github.com/6br/hgb
 cd hgb
-git checkout graph
 cargo build --release
 ```
 
